@@ -10,7 +10,6 @@ public interface CustomArbitraryInteger {
 
     void multiply(ArbitraryInteger  other);
 
-
     void setElement(int index, byte value);
 
     void saveToTextFile(String filePath);

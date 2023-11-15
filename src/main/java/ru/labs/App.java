@@ -4,6 +4,7 @@ import ru.labs.MyType.ArbitraryInteger;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.List;
 
 public class App 
 {
@@ -28,6 +29,7 @@ public class App
         // Выводим значения num1 и num2
         System.out.println("num1: " + num1);
         System.out.println("num2: " + num2);
+        System.out.println();
 
         num1.add(num2);
         System.out.println("Сумма num1 и num2: " + num1);
@@ -37,11 +39,17 @@ public class App
 
         num1.multiply(num2);
         System.out.println("Произведение num1 и num2: " + num1);
+        System.out.println();
+
+        ArbitraryInteger saveFileBin = new ArbitraryInteger(
+                List.of((byte) 0b01001101),
+                true
+        );
 
         // Сохранение в двоичный файл
         try (OutputStream os = new FileOutputStream("output.bin")) {
-            num2.saveToBinaryStream(os);
-            System.out.println("Сохраненное число: " + num2);
+            saveFileBin.saveToBinaryStream(os);
+            System.out.println("Сохраненное число bin: " + saveFileBin);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -50,17 +58,25 @@ public class App
         try (InputStream is = new FileInputStream("output.bin")) {
             ArbitraryInteger loadedNum = new ArbitraryInteger();
             loadedNum.loadFromBinaryStream(is);
-            System.out.println("Загруженное число: " + loadedNum);
+            System.out.println("Загруженное число bin: " + loadedNum);
+            System.out.println();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        num1.saveToTextFile("output.txt");
+        ArbitraryInteger saveFileTxt = new ArbitraryInteger(
+                List.of((byte) 0b00001010),
+                true
+        );
+
+        saveFileTxt.saveToTextFile("output.txt");
+        System.out.println("Загруженное число: txt " + saveFileTxt);
 
         // Загрузка из файла
         ArbitraryInteger loadedNumber = new ArbitraryInteger();
         loadedNumber.loadFromTextFile("output.txt");
         System.out.println("Загруженное число txt: " + loadedNumber);
+        System.out.println();
 
     }
 }

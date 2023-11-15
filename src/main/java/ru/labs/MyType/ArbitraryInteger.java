@@ -7,7 +7,6 @@ import java.util.List;
 public class ArbitraryInteger implements CustomArbitraryInteger {
 
     private List<Byte> bytes;
-
     private boolean isNegative;
 
     public ArbitraryInteger() {
@@ -49,22 +48,25 @@ public class ArbitraryInteger implements CustomArbitraryInteger {
         }
 
         if (isNegative()) {
-            isNegative = false;
+            isNegative = true;
             add(other);
             return;
         }
 
         List<Byte> result = new ArrayList<>();
         int maxSize = Math.max(size(), other.size());
+        int borrow = 0;
 
         for (int i = 0; i < maxSize; i++) {
             int byteFirst = i < size() ? bytes.get(i) & 0xFF : 0;
             int byteSecond = i < other.size() ? other.getBytes().get(i) & 0xFF : 0;
-            int difference = byteFirst - byteSecond;
+            int difference = byteFirst - byteSecond - borrow;
 
             if (difference < 0) {
-                bytes.set(i + 1, (byte) (bytes.get(i + 1) - 1));
                 difference += 256;  // 2^8
+                borrow = 1;
+            } else {
+                borrow = 0;
             }
 
             result.add((byte) difference);
@@ -91,7 +93,7 @@ public class ArbitraryInteger implements CustomArbitraryInteger {
             }
         }
 
-        bytes.clear();
+        bytes = new ArrayList<>();
         for (byte b : result) {
             bytes.add(b);
         }
@@ -118,6 +120,8 @@ public class ArbitraryInteger implements CustomArbitraryInteger {
         try (DataInputStream dataIn = new DataInputStream(in)) {
             isNegative = dataIn.readBoolean();
             int size = dataIn.readInt();
+
+            bytes.clear();
 
             for (int i = 0; i < size; i++) {
                 bytes.add(dataIn.readByte());
