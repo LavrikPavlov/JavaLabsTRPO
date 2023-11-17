@@ -27,15 +27,17 @@ public class App
         myArrayFirst.add(7);
         myArrayFirst.add(2);
 
+        System.out.println();
         System.out.println("До сортировки и изменений №1: " + myArrayFirst.getData());
         System.out.println("До сортировки и изменений №2: " + myArraySecond.getData());
 
         myArrayFirst.insert(1,0);
 
         myArraySecond.add(Arrays.asList(10,12,11));
-        myArraySecond.insert(1,2,0);
+        myArraySecond.insertByIndex(1,2,0);
 
         // Выводим содержимое до сортировки
+        System.out.println();
         System.out.println("До сортировки №1: " + myArrayFirst.getData());
         System.out.println("До сортировки №2: " + myArraySecond.getData());
 
@@ -44,12 +46,14 @@ public class App
         myArraySecond.sort();
 
         // Выводим содержимое после сортировки
+        System.out.println();
         System.out.println("После сортировки №1: " + myArrayFirst.getData());
         System.out.println("После сортировки №2: " + myArraySecond.getData());
 
         myArrayFirst.insertOrder(4);
         myArraySecond.insertOrder(13);
 
+        System.out.println();
         System.out.println("После сортировки + inseretByOrder() №1: " + myArrayFirst.getData());
         System.out.println("После сортировки + inseretByOrder() №2: " + myArraySecond.getData());
 

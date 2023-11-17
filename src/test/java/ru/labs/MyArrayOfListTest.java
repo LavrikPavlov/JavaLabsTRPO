@@ -49,7 +49,7 @@ public class MyArrayOfListTest {
         MyArrayOfList myArray = new MyArrayOfList();
         myArray.add(List.of(15, 20));
 
-        myArray.insert(0, 0, 7);
+        myArray.insertByIndex(0, 0, 7);
 
         assertEquals(7, myArray.get(0, 0));
         assertEquals(15, myArray.get(0, 1));
@@ -74,7 +74,7 @@ public class MyArrayOfListTest {
         MyArrayOfList myArray = new MyArrayOfList();
         myArray.add(List.of(5, 10, 15));
 
-        myArray.delete(0, 0);
+        myArray.deleteByIndex(0, 0);
 
         assertNotEquals(5, myArray.get(0, 0));
         assertEquals(10, myArray.get(0, 0));

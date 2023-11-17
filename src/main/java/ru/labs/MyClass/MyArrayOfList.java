@@ -2,10 +2,7 @@ package ru.labs.MyClass;
 
 import ru.labs.mySort.MySort;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class MyArrayOfList implements CustomeArrayOfList{
 
@@ -64,7 +61,9 @@ public class MyArrayOfList implements CustomeArrayOfList{
                 if (secondIndex < list.size()) {
                     return list.get(secondIndex);
                 } else {
-                    throw new IndexOutOfBoundsException("Ошибка: Второй индекс находится за пределами допустимого диапазона");
+                    throw new
+                            IndexOutOfBoundsException("Ошибка: Второй индекс находится " +
+                            "за пределами допустимого диапазона");
                 }
             }
             current++;
@@ -86,7 +85,7 @@ public class MyArrayOfList implements CustomeArrayOfList{
         throw new IndexOutOfBoundsException("Ошибка: Index находиться за допустимым диапозоном");
     }
 
-    public void insert(int firstIndex, int secondIndex, int value) {
+    public void insertByIndex(int firstIndex, int secondIndex, int value) {
         int current = 0;
         for (ArrayList<Integer> list : data) {
             if (firstIndex == current) {
@@ -94,7 +93,8 @@ public class MyArrayOfList implements CustomeArrayOfList{
                     list.add(secondIndex, value);
                     return;
                 } else {
-                    throw new IndexOutOfBoundsException("Ошибка: Второй индекс находится за пределами допустимого диапазона");
+                    throw new IndexOutOfBoundsException("Ошибка: Второй индекс находится" +
+                            " за пределами допустимого диапазона");
                 }
             }
             current++;
@@ -113,18 +113,20 @@ public class MyArrayOfList implements CustomeArrayOfList{
     @Override
     public void delete(int index) {
         int current = 0;
-        for(ArrayList<Integer> list : data){
+        Iterator<ArrayList<Integer>> iterator = data.iterator();
+        while (iterator.hasNext()) {
+            ArrayList<Integer> list = iterator.next();
             int size = list.size();
-            if(index < current + size){
-                list.remove(index - current);
+            if (index < current + size) {
+                iterator.remove();
                 return;
             }
             current += size;
         }
-        throw new IndexOutOfBoundsException("Ошибка: Index находиться за допустимым диапозоном");
+        throw new IndexOutOfBoundsException("Ошибка: Index находится за допустимым диапазоном");
     }
 
-    public void delete(int firstIndex, int secondIndex){
+    public void deleteByIndex(int firstIndex, int secondIndex){
         int current = 0;
         for (ArrayList<Integer> list : data) {
             int size = list.size();
@@ -133,7 +135,8 @@ public class MyArrayOfList implements CustomeArrayOfList{
                     list.remove(secondIndex);
                     return;
                 } else {
-                    throw new IndexOutOfBoundsException("Ошибка: Второй индекс находится за пределами допустимого диапазона");
+                    throw new IndexOutOfBoundsException("Ошибка: Второй индекс находится" +
+                            " за пределами допустимого диапазона");
                 }
             }
             current += size;
@@ -205,9 +208,7 @@ public class MyArrayOfList implements CustomeArrayOfList{
 
     @Override
     public String toString() {
-        return "MyArrayOfList{" +
-                "data=" + data +
-                '}';
+        return "{" + data + '}';
     }
 
     public boolean isEmpty(){
