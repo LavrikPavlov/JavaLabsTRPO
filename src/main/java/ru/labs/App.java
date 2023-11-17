@@ -45,8 +45,13 @@ public class App
 
         // Выводим содержимое после сортировки
         System.out.println("После сортировки №1: " + myArrayFirst.getData());
-        System.out.println("После сортировки №1: " + myArraySecond.getData());
+        System.out.println("После сортировки №2: " + myArraySecond.getData());
 
+        myArrayFirst.insertOrder(4);
+        myArraySecond.insertOrder(13);
+
+        System.out.println("После сортировки + inseretByOrder() №1: " + myArrayFirst.getData());
+        System.out.println("После сортировки + inseretByOrder() №2: " + myArraySecond.getData());
 
         // Пример использования forEach
         System.out.println("\nПример работы forEach");

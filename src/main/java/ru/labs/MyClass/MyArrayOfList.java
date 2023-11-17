@@ -40,18 +40,17 @@ public class MyArrayOfList implements CustomeArrayOfList{
     }
 
     public void add(List<Integer> value){
-        ArrayList<Integer> innerList = new ArrayList<>(value.size());
-        innerList.addAll(value);
+        ArrayList<Integer> innerList = new ArrayList<>(value);
         data.add(innerList);
     }
 
     @Override
-    public int get(int index) {
+    public Collection<Integer> get(int index) {
         int current = 0;
         for(ArrayList<Integer> list : data){
             int size = list.size();
             if(index < current + size){
-                return list.get(index - current);
+                return list;
             }
             current += size;
         }
@@ -61,15 +60,14 @@ public class MyArrayOfList implements CustomeArrayOfList{
     public int get(int firstIndex, int secondIndex) {
         int current = 0;
         for (ArrayList<Integer> list : data) {
-            int size = list.size();
-            if (firstIndex < current + size) {
+            if (firstIndex == current) {
                 if (secondIndex < list.size()) {
                     return list.get(secondIndex);
                 } else {
                     throw new IndexOutOfBoundsException("Ошибка: Второй индекс находится за пределами допустимого диапазона");
                 }
             }
-            current += size;
+            current++;
         }
         throw new IndexOutOfBoundsException("Ошибка: Первый индекс находится за пределами допустимого диапазона");
     }
@@ -91,8 +89,7 @@ public class MyArrayOfList implements CustomeArrayOfList{
     public void insert(int firstIndex, int secondIndex, int value) {
         int current = 0;
         for (ArrayList<Integer> list : data) {
-            int size = list.size();
-            if (firstIndex < current + size) {
+            if (firstIndex == current) {
                 if (secondIndex <= list.size()) {
                     list.add(secondIndex, value);
                     return;
@@ -100,7 +97,7 @@ public class MyArrayOfList implements CustomeArrayOfList{
                     throw new IndexOutOfBoundsException("Ошибка: Второй индекс находится за пределами допустимого диапазона");
                 }
             }
-            current += size;
+            current++;
         }
 
         if (firstIndex == current) {
@@ -120,6 +117,7 @@ public class MyArrayOfList implements CustomeArrayOfList{
             int size = list.size();
             if(index < current + size){
                 list.remove(index - current);
+                return;
             }
             current += size;
         }
@@ -210,6 +208,10 @@ public class MyArrayOfList implements CustomeArrayOfList{
         return "MyArrayOfList{" +
                 "data=" + data +
                 '}';
+    }
+
+    public boolean isEmpty(){
+        return data.get(0).isEmpty();
     }
 
     @Override

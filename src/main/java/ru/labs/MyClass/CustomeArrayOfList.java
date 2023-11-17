@@ -1,10 +1,14 @@
 package ru.labs.MyClass;
 
+import java.util.Collection;
+
 public interface CustomeArrayOfList {
 
     void add(int value);
 
-    int get(int index);
+    int get(int firstIndex, int secondIndex);
+
+    Collection<Integer> get(int index);
 
     void insert(int index, int value);
 
