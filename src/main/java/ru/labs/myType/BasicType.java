@@ -1,14 +1,15 @@
 package ru.labs.myType;
 
 import ru.labs.classes.ArbitraryInteger;
-import ru.labs.interfaces.Comparator;
+import ru.labs.interfaces.MyComparator;
 import ru.labs.interfaces.UserType;
 
 import java.io.InputStreamReader;
+import java.lang.reflect.Constructor;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class BasicType<T> implements UserType {
+public class BasicType<T> implements UserType<T> {
     private T value;
 
     public BasicType(T value) {
@@ -21,49 +22,49 @@ public class BasicType<T> implements UserType {
     }
 
     @Override
-    public Object create() {
+    public T create() {
         return value;
     }
 
     @Override
-    public Object clone() {
+    public BasicType<T> clone() {
         return new BasicType<>(this.value);
     }
 
     @Override
-    public Object readValue(InputStreamReader in) {
+    public T readValue(InputStreamReader in) {
         Scanner scanner = new Scanner(in);
         if (value instanceof Integer) {
-            return scanner.nextInt();
+            return (T) Integer.valueOf(scanner.nextInt());
         } else if (value instanceof String || value instanceof ArbitraryInteger) {
-            return scanner.nextLine();
+            return (T) scanner.nextLine();
         } else {
             throw new UnsupportedOperationException("Unsupported type: " + typeName());
         }
     }
 
     @Override
-    public Object parseValue(String ss) {
+    public T parseValue(String ss) {
         if (value instanceof Integer) {
-            return Integer.parseInt(ss);
+            return (T) Integer.valueOf(Integer.parseInt(ss));
         } else if (value instanceof String) {
-            return ss;
+            return (T) ss;
         } else if (value instanceof ArbitraryInteger) {
             ArbitraryInteger arbitraryInteger = new ArbitraryInteger();
             try (Scanner scanner = new Scanner(ss)) {
                 scanner.useDelimiter(",");
                 while (scanner.hasNext()) {
-                        int intValue = Integer.parseInt(scanner.next());
-                        if (intValue < Byte.MIN_VALUE || intValue > Byte.MAX_VALUE) {
-                            throw new RuntimeException("Error parsing ArbitraryInteger: Value out of range. Value:" + intValue);
-                        }
-                        byte byteValue = (byte) intValue;
-                        arbitraryInteger.getBytes().add(byteValue);
+                    int intValue = Integer.parseInt(scanner.next());
+                    if (intValue < Byte.MIN_VALUE || intValue > Byte.MAX_VALUE) {
+                        throw new RuntimeException("Error parsing ArbitraryInteger: Value out of range. Value:" + intValue);
+                    }
+                    byte byteValue = (byte) intValue;
+                    arbitraryInteger.getBytes().add(byteValue);
                 }
             } catch (Exception e) {
                 throw new RuntimeException("Error parsing ArbitraryInteger: " + e.getMessage());
             }
-            return arbitraryInteger;
+            return (T) arbitraryInteger;
         } else {
             throw new UnsupportedOperationException("Unsupported type: " + typeName());
         }
@@ -71,14 +72,35 @@ public class BasicType<T> implements UserType {
 
 
     @Override
-    public Comparator getTypeComparator() {
-        return (o1, o2) -> {
-            if (o1 instanceof Comparable && o2 instanceof Comparable) {
-                return ((Comparable<T>) o1).compareTo((T) o2);
-            } else {
-                return 0;
-            }
-        };
+    public MyComparator getTypeComparator() {
+        if (value instanceof String) {
+            return new MyComparator<String>() {
+                @Override
+                public int compare(String o1, String o2) {
+                    String s1 = o1;
+                    String s2 = o2;
+                    return Integer.compare(s1.length(), s2.length());
+                }
+            };
+        } else if (value instanceof Integer) {
+            return new MyComparator<Integer>() {
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    return Integer.compare(o1, o2);
+                }
+            };
+        } else if (value instanceof ArbitraryInteger) {
+            return new MyComparator<ArbitraryInteger>() {
+                @Override
+                public int compare(ArbitraryInteger o1, ArbitraryInteger o2) {
+                    ArbitraryInteger ai1 =  o1;
+                    ArbitraryInteger ai2 =  o2;
+                    return Integer.compare(ai1.getBytes().size(), ai2.getBytes().size());
+                }
+            };
+        } else {
+            throw new UnsupportedOperationException("Unsupported type: " + typeName());
+        }
     }
 
     @Override

@@ -2,16 +2,19 @@ package ru.labs.interfaces;
 
 import java.io.InputStreamReader;
 
-public interface UserType {
+public interface UserType<T> {
     String typeName();
 
-    Object create();
+    T create();
 
     Object clone();
 
-    Object readValue(InputStreamReader in);
+    T readValue(InputStreamReader in);
 
-    Object parseValue(String ss);
+    T parseValue(String ss);
 
-    Comparator getTypeComparator();
+    MyComparator<T> getTypeComparator();
 }
+
+
+

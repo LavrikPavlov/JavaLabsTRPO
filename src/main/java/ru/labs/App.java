@@ -2,7 +2,7 @@ package ru.labs;
 
 
 import ru.labs.classes.ArbitraryInteger;
-import ru.labs.interfaces.Comparator;
+import ru.labs.interfaces.MyComparator;
 import ru.labs.myType.BasicType;
 import ru.labs.myType.BasicTypeFactory;
 
@@ -29,11 +29,9 @@ public class App
         System.out.println();
 
         // Тестирование clone
-        BasicType<String> cloneBasicTypeString = (BasicType<String>) basicTypeString.clone();
-        BasicType<Integer> cloneBasicTypeInteger = BasicTypeFactory.createIntegerType(42);
-        BasicType<ArbitraryInteger> cloneBasicTypeData = BasicTypeFactory.createArbitraryIntegerType(
-                new ArbitraryInteger(Arrays.asList((byte) 56), false)
-        );
+        BasicType<String> cloneBasicTypeString = basicTypeString.clone();
+        BasicType<Integer> cloneBasicTypeInteger = basicTypeInteger.clone();
+        BasicType<ArbitraryInteger> cloneBasicTypeData = basicTypeData.clone();
 
         System.out.println("Клон (Строка): " + cloneBasicTypeString);
         System.out.println("Клон (Целое число): " + cloneBasicTypeInteger);
@@ -66,5 +64,23 @@ public class App
         Object readArbitraryIntegerValue = basicTypeData.readValue(new InputStreamReader(System.in));
         System.out.println("Считанное значение (Произвольное целое число): " + readArbitraryIntegerValue);
         System.out.println(basicTypeData + "\n");
+
+        // Test getTypeComparator
+        MyComparator comparator = basicTypeString.getTypeComparator();
+        int compareResult = comparator.compare("Hello", "World");
+        System.out.println("Compare Результат: " + compareResult);
+        System.out.println();
+
+        MyComparator intComparator = basicTypeInteger.getTypeComparator();
+        int intCompareResult = intComparator.compare(42, 56);
+        System.out.println("Integer Compare Результат: " + intCompareResult);
+        System.out.println();
+
+        MyComparator arbitraryIntComparator = basicTypeData.getTypeComparator();
+        int arbitraryIntCompareResult = arbitraryIntComparator.compare(
+                new ArbitraryInteger(Arrays.asList((byte) 42), false),
+                new ArbitraryInteger(Arrays.asList((byte) 56), false)
+        );
+        System.out.println("ArbitraryInteger Compare Результат: " + arbitraryIntCompareResult);
     }
 }

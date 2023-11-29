@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class ArbitraryInteger implements CustomArbitraryInteger {
 
@@ -219,6 +220,24 @@ public class ArbitraryInteger implements CustomArbitraryInteger {
 
     public void setNegative(boolean negative) {
         isNegative = negative;
+    }
+
+    public static ArbitraryInteger fromString(String ss) {
+        ArbitraryInteger arbitraryInteger = new ArbitraryInteger();
+        try (Scanner scanner = new Scanner(ss)) {
+            scanner.useDelimiter(",");
+            while (scanner.hasNext()) {
+                int intValue = Integer.parseInt(scanner.next());
+                if (intValue < Byte.MIN_VALUE || intValue > Byte.MAX_VALUE) {
+                    throw new RuntimeException("Error parsing ArbitraryInteger: Value out of range. Value:" + intValue);
+                }
+                byte byteValue = (byte) intValue;
+                arbitraryInteger.getBytes().add(byteValue);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error parsing ArbitraryInteger: " + e.getMessage());
+        }
+        return arbitraryInteger;
     }
 
     @Override
