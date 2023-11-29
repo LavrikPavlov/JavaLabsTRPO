@@ -2,7 +2,7 @@ package ru.labs.interfaces;
 
 import java.io.InputStreamReader;
 
-public interface UserType<T> {
+public interface UserType {
     String typeName();
 
     Object create();
@@ -13,5 +13,5 @@ public interface UserType<T> {
 
     Object parseValue(String ss);
 
-    Comparator<T> getTypeComparator();
+    Comparator getTypeComparator();
 }

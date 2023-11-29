@@ -8,7 +8,7 @@ import java.io.InputStreamReader;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class BasicType<T> implements UserType<T> {
+public class BasicType<T> implements UserType {
     private T value;
 
     public BasicType(T value) {
@@ -71,7 +71,7 @@ public class BasicType<T> implements UserType<T> {
 
 
     @Override
-    public Comparator<T> getTypeComparator() {
+    public Comparator getTypeComparator() {
         return (o1, o2) -> {
             if (o1 instanceof Comparable && o2 instanceof Comparable) {
                 return ((Comparable<T>) o1).compareTo((T) o2);

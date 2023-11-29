@@ -82,18 +82,18 @@ public class App
         System.out.println(basicTypeData + "\n");
 
         // Test getTypeComparator
-        Comparator<String> comparator = basicTypeString.getTypeComparator();
-        int compareResult = comparator.compareTo("Hello", "World");
+        Comparator comparator = basicTypeString.getTypeComparator();
+        int compareResult = comparator.compare("Hello", "World");
         System.out.println("Compare Result: " + compareResult);
         System.out.println();
 
-        Comparator<Integer> intComparator = basicTypeInteger.getTypeComparator();
-        int intCompareResult = intComparator.compareTo(42, 56);
+        Comparator intComparator = basicTypeInteger.getTypeComparator();
+        int intCompareResult = intComparator.compare(42, 56);
         System.out.println("Integer Compare Result: " + intCompareResult);
         System.out.println();
 
-        Comparator<ArbitraryInteger> arbitraryIntComparator = basicTypeData.getTypeComparator();
-        int arbitraryIntCompareResult = arbitraryIntComparator.compareTo(
+        Comparator arbitraryIntComparator = basicTypeData.getTypeComparator();
+        int arbitraryIntCompareResult = arbitraryIntComparator.compare(
                 new ArbitraryInteger(Arrays.asList((byte) 42), false),
                 new ArbitraryInteger(Arrays.asList((byte) 56), false)
         );
