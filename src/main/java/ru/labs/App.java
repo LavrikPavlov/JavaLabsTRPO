@@ -53,17 +53,33 @@ public class App
         System.out.println("Введите строковое значение:");
         Object readStringValue = basicTypeString.readValue(new InputStreamReader(System.in));
         System.out.println("Считанное значение (Строка): " + readStringValue);
-        System.out.println(basicTypeString + "\n");
+        System.out.println(readStringValue + "\n");
 
         System.out.println("Введите целочисленное значение:");
         Object readIntegerValue = basicTypeInteger.readValue(new InputStreamReader(System.in));
         System.out.println("Считанное значение (Целое число): " + readIntegerValue);
-        System.out.println(basicTypeInteger + "\n");
+        System.out.println(readIntegerValue + "\n");
 
         System.out.println("Введите двоичное представление для Произвольного целого числа:");
         Object readArbitraryIntegerValue = basicTypeData.readValue(new InputStreamReader(System.in));
         System.out.println("Считанное значение (Произвольное целое число): " + readArbitraryIntegerValue);
-        System.out.println(basicTypeData + "\n");
+        System.out.println(readArbitraryIntegerValue + "\n");
+
+        // Тестирование parseValue
+        System.out.println("Введите строковое представление значения:");
+        Object parsedStringValue = basicTypeString.parseValue("ParsedValue");
+        System.out.println("Разобранное значение (Строка): " + parsedStringValue);
+        System.out.println(parsedStringValue + "\n");
+
+        System.out.println("Введите целочисленное представление значения:");
+        Object parsedIntegerValue = basicTypeInteger.parseValue("42");
+        System.out.println("Разобранное значение (Целое число): " + parsedIntegerValue);
+        System.out.println(parsedIntegerValue + "\n");
+
+        System.out.println("Введите двоичное представление для Произвольного целого числа:");
+        Object parsedArbitraryIntegerValue = basicTypeData.parseValue("5,74");
+        System.out.println("Разобранное значение (Произвольное целое число): " + parsedArbitraryIntegerValue);
+        System.out.println(parsedArbitraryIntegerValue + "\n");
 
         // Test getTypeComparator
         MyComparator comparator = basicTypeString.getTypeComparator();

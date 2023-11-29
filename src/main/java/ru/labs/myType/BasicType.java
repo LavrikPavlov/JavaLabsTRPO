@@ -5,7 +5,6 @@ import ru.labs.interfaces.MyComparator;
 import ru.labs.interfaces.UserType;
 
 import java.io.InputStreamReader;
-import java.lang.reflect.Constructor;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -36,12 +35,16 @@ public class BasicType<T> implements UserType<T> {
         Scanner scanner = new Scanner(in);
         if (value instanceof Integer) {
             return (T) Integer.valueOf(scanner.nextInt());
-        } else if (value instanceof String || value instanceof ArbitraryInteger) {
+        } else if (value instanceof String) {
             return (T) scanner.nextLine();
+        }else if( value instanceof ArbitraryInteger){
+            String valueString = scanner.nextLine();
+            return parseValue(valueString);
         } else {
             throw new UnsupportedOperationException("Unsupported type: " + typeName());
         }
     }
+
 
     @Override
     public T parseValue(String ss) {
@@ -56,7 +59,8 @@ public class BasicType<T> implements UserType<T> {
                 while (scanner.hasNext()) {
                     int intValue = Integer.parseInt(scanner.next());
                     if (intValue < Byte.MIN_VALUE || intValue > Byte.MAX_VALUE) {
-                        throw new RuntimeException("Error parsing ArbitraryInteger: Value out of range. Value:" + intValue);
+                        throw new RuntimeException("Error parsing ArbitraryInteger: Value out of range. Value:"
+                                + intValue);
                     }
                     byte byteValue = (byte) intValue;
                     arbitraryInteger.getBytes().add(byteValue);
