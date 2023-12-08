@@ -1,10 +1,10 @@
 package ru.labs.myType;
 
 import ru.labs.classes.ArbitraryInteger;
-import ru.labs.interfaces.Comparator;
 import ru.labs.interfaces.UserType;
 
 import java.io.InputStreamReader;
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -71,7 +71,7 @@ public class BasicType<T> implements UserType {
 
 
     @Override
-    public Comparator getTypeComparator() {
+    public Comparator<Object> getTypeComparator() {
         return (o1, o2) -> {
             if (o1 instanceof Comparable && o2 instanceof Comparable) {
                 return ((Comparable<T>) o1).compareTo((T) o2);
